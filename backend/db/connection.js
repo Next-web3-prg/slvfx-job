@@ -4,12 +4,11 @@ require('dotenv').config({ path: require('path').join(__dirname, '../../.env') }
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL || `postgresql://${process.env.DB_USER || 'postgres'}:${process.env.DB_PASSWORD || 'password'}@${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 5432}/${process.env.DB_NAME || 'slvfx_job_board'}`,
   ssl: {
-    rejectUnauthorized: false,
-    require: true
+    rejectUnauthorized: false
   },
-  max: 20, // Maximum number of clients in the pool
+  max: 10, // Reduced for NeonDB
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 10000, // Increased timeout
 });
 
 // Test the connection
