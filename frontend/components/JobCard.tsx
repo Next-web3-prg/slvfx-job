@@ -6,6 +6,12 @@ import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSavedJobs } from '@/hooks/useSavedJobs';
 
+// Helper function to strip HTML tags
+const stripHtml = (html: string): string => {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+};
+
 interface Job {
   id: string;
   title: string;
@@ -151,8 +157,14 @@ export default function JobCard({ job }: JobCardProps) {
 
       {/* Description */}
       <p className="text-gray-700 mb-4 line-clamp-3">
-        {job.description?.substring(0, 200)}
-        {job.description?.length > 200 && '...'}
+        {job.description ? (
+          <>
+            {stripHtml(job.description).substring(0, 200)}
+            {stripHtml(job.description).length > 200 && '...'}
+          </>
+        ) : (
+          'No description available'
+        )}
       </p>
 
       {/* Actions */}

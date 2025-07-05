@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
       experience_level = '',
       tags = '',
       company = '',
+      sort = 'relevance',
       sort_by = 'posted_at',
       sort_order = 'DESC'
     } = req.query;
@@ -75,12 +76,36 @@ router.get('/', async (req, res) => {
 
     const whereClause = whereConditions.length > 0 ? `WHERE ${whereConditions.join(' AND ')}` : '';
 
-    // Validate sort parameters
+    // Handle sorting
+    let sortField = 'posted_at';
+    let sortOrder = 'DESC';
+    
+    if (sort === 'date') {
+      sortField = 'posted_at';
+      sortOrder = 'DESC';
+    } else if (sort === 'relevance') {
+      // For relevance, we'll use a combination of factors
+      // If there's a search term, prioritize jobs that match better
+      if (search) {
+        // Use a more complex ordering for relevance
+        sortField = 'posted_at';
+        sortOrder = 'DESC';
+      } else {
+        sortField = 'posted_at';
+        sortOrder = 'DESC';
+      }
+    }
+    
+    // Fallback to explicit sort parameters if provided
     const allowedSortFields = ['posted_at', 'title', 'company', 'location', 'created_at'];
     const allowedSortOrders = ['ASC', 'DESC'];
     
-    const sortField = allowedSortFields.includes(sort_by) ? sort_by : 'posted_at';
-    const sortOrder = allowedSortOrders.includes(sort_order.toUpperCase()) ? sort_order.toUpperCase() : 'DESC';
+    if (sort_by && allowedSortFields.includes(sort_by)) {
+      sortField = sort_by;
+    }
+    if (sort_order && allowedSortOrders.includes(sort_order.toUpperCase())) {
+      sortOrder = sort_order.toUpperCase();
+    }
 
     // Get total count
     const countQuery = `

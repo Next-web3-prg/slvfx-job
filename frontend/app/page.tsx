@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Filter, MapPin, Building, Clock, Briefcase } from 'lucide-react';
+import { Search, Filter, MapPin, Building, Clock, Briefcase, ArrowUpDown } from 'lucide-react';
 import JobCard from '@/components/JobCard';
 import SearchFilters from '@/components/SearchFilters';
 import { useJobs } from '@/hooks/useJobs';
@@ -17,8 +17,9 @@ export default function HomePage() {
     company: '',
     page: 1,
   });
+  const [sortBy, setSortBy] = useState<'relevance' | 'date'>('relevance');
 
-  const { jobs, pagination, loading, error } = useJobs(searchParams);
+  const { jobs, pagination, loading, error } = useJobs({ ...searchParams, sort: sortBy });
 
   const handleSearch = (newParams: any) => {
     setSearchParams(prev => ({ ...prev, ...newParams, page: 1 }));
@@ -85,9 +86,24 @@ export default function HomePage() {
                 )}
               </div>
               
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <Filter size={16} />
-                <span>Filters applied</span>
+              <div className="flex items-center space-x-4">
+                {/* Sort Button */}
+                <div className="flex items-center space-x-2">
+                  <ArrowUpDown size={16} className="text-gray-600" />
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as 'relevance' | 'date')}
+                    className="text-sm border border-gray-300 rounded-md px-3 py-1 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  >
+                    <option value="relevance">Sort by Relevance</option>
+                    <option value="date">Sort by Date</option>
+                  </select>
+                </div>
+                
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <Filter size={16} />
+                  <span>Filters applied</span>
+                </div>
               </div>
             </div>
 
@@ -127,7 +143,16 @@ export default function HomePage() {
                   Try adjusting your search criteria or filters
                 </p>
                 <button
-                  onClick={() => setSearchParams({ page: 1 })}
+                  onClick={() => setSearchParams({
+                    search: '',
+                    location: '',
+                    remote_type: '',
+                    job_type: '',
+                    experience_level: '',
+                    tags: '',
+                    company: '',
+                    page: 1
+                  })}
                   className="btn btn-primary"
                 >
                   Clear Filters

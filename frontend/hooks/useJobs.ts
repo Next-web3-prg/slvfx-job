@@ -11,6 +11,7 @@ interface JobFilters {
   company?: string;
   page?: number;
   limit?: number;
+  sort?: 'relevance' | 'date';
 }
 
 interface Job {
