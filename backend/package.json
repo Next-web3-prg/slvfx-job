@@ -8,6 +8,7 @@
     "start": "node server.js",
     "setup:db": "node scripts/setup-database.js",
     "scrape": "node scripts/scrape-jobs.js",
+    "scheduler": "node scheduler.js",
     "test": "jest"
   },
   "dependencies": {

@@ -17,6 +17,9 @@ const authRoutes = require('./routes/auth');
 // Import database connection
 const { connectDB } = require('./db/connection');
 
+// Import scheduler
+const JobScheduler = require('./scheduler');
+
 // Security middleware
 app.use(helmet());
 app.use(cors({
@@ -73,6 +76,11 @@ async function startServer() {
   try {
     await connectDB();
     console.log('✅ Database connected successfully');
+    
+    // Start job scheduler
+    const scheduler = new JobScheduler();
+    scheduler.start();
+    console.log('✅ Job scheduler started');
     
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
