@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { Pool } = require('pg');
-require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '../.env.local') });
 
 async function setupDatabase() {
   console.log('🗄️ Setting up database...');
@@ -21,7 +21,7 @@ async function setupDatabase() {
     console.log('✅ Database connection successful');
 
     // Read and execute schema
-    const schemaPath = path.join(__dirname, '..', 'db', 'schema.sql');
+    const schemaPath = path.join(__dirname, '..', 'src', 'lib', 'db', 'schema.sql');
     const schema = fs.readFileSync(schemaPath, 'utf8');
 
     console.log('📋 Executing database schema...');
@@ -56,7 +56,7 @@ async function setupDatabase() {
     if (error.code === 'ECONNREFUSED') {
       console.log('\n💡 Troubleshooting:');
       console.log('1. Make sure PostgreSQL is running');
-      console.log('2. Check your database credentials in .env');
+      console.log('2. Check your database credentials in .env.local');
       console.log('3. Ensure the database exists: CREATE DATABASE slvfx_job_board;');
     }
     

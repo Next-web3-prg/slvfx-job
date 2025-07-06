@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '../.env.local') });
 
 async function addRemoteYeahSource() {
   console.log('🔧 Adding RemoteYeah to job sources...');
