@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { Search, Filter, MapPin, Building, Clock, Briefcase, ArrowUpDown } from 'lucide-react';
 import JobCard from '@/components/JobCard';
 import SearchFilters from '@/components/SearchFilters';
+import Pagination from '@/components/Pagination';
+import CompactPagination from '@/components/CompactPagination';
+import GoToTop from '@/components/GoToTop';
 import { useJobs } from '@/hooks/useJobs';
 
 export default function HomePage() {
@@ -16,6 +19,7 @@ export default function HomePage() {
     tags: '',
     company: '',
     page: 1,
+    limit: 20,
   });
   const [sortBy, setSortBy] = useState<'relevance' | 'date'>('relevance');
 
@@ -27,6 +31,10 @@ export default function HomePage() {
 
   const handlePageChange = (page: number) => {
     setSearchParams(prev => ({ ...prev, page }));
+  };
+
+  const handleItemsPerPageChange = (limit: number) => {
+    setSearchParams(prev => ({ ...prev, limit, page: 1 }));
   };
 
   return (
@@ -107,6 +115,21 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* Top Pagination */}
+            {pagination && pagination.total_pages > 1 && (
+              <div className="mb-6">
+                <CompactPagination
+                  currentPage={pagination.current_page}
+                  totalPages={pagination.total_pages}
+                  totalItems={pagination.total_items}
+                  itemsPerPage={pagination.items_per_page}
+                  onPageChange={handlePageChange}
+                  onItemsPerPageChange={handleItemsPerPageChange}
+                  className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm"
+                />
+              </div>
+            )}
+
             {/* Job Cards */}
             {loading ? (
               <div className="space-y-4">
@@ -151,7 +174,8 @@ export default function HomePage() {
                     experience_level: '',
                     tags: '',
                     company: '',
-                    page: 1
+                    page: 1,
+                    limit: 20
                   })}
                   className="btn btn-primary"
                 >
@@ -166,35 +190,26 @@ export default function HomePage() {
               </div>
             )}
 
-            {/* Pagination */}
+            {/* Bottom Pagination */}
             {pagination && pagination.total_pages > 1 && (
-              <div className="flex justify-center mt-8">
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => handlePageChange(pagination.current_page - 1)}
-                    disabled={!pagination.has_prev_page}
-                    className="btn btn-outline btn-sm disabled:opacity-50"
-                  >
-                    Previous
-                  </button>
-                  
-                  <span className="flex items-center px-4 text-sm text-gray-600">
-                    Page {pagination.current_page} of {pagination.total_pages}
-                  </span>
-                  
-                  <button
-                    onClick={() => handlePageChange(pagination.current_page + 1)}
-                    disabled={!pagination.has_next_page}
-                    className="btn btn-outline btn-sm disabled:opacity-50"
-                  >
-                    Next
-                  </button>
-                </div>
+              <div className="mt-8">
+                <Pagination
+                  currentPage={pagination.current_page}
+                  totalPages={pagination.total_pages}
+                  totalItems={pagination.total_items}
+                  itemsPerPage={pagination.items_per_page}
+                  onPageChange={handlePageChange}
+                  onItemsPerPageChange={handleItemsPerPageChange}
+                  className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm"
+                />
               </div>
             )}
           </div>
         </div>
       </div>
+      
+      {/* Go to Top Button */}
+      <GoToTop />
     </div>
   );
 } 

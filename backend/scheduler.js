@@ -8,7 +8,7 @@ class JobScheduler {
   constructor() {
     this.scrapers = [
       new RemoteOKScraper(),
-      new WeWorkRemotelyScraper(),
+    //   new WeWorkRemotelyScraper(),
       new RemoteYeahScraper()
     ];
   }
