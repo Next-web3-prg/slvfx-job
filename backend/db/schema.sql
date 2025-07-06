@@ -97,6 +97,7 @@ CREATE INDEX IF NOT EXISTS idx_job_alerts_active ON job_alerts(is_active);
 INSERT INTO job_sources (name, base_url, api_endpoint) VALUES
     ('RemoteOK', 'https://remoteok.io', 'https://remoteok.io/api'),
     ('WeWorkRemotely', 'https://weworkremotely.com', NULL),
+    ('RemoteYeah', 'https://remoteyeah.com', NULL),
     ('Wellfound', 'https://wellfound.com', NULL),
     ('Indeed', 'https://indeed.com', NULL)
 ON CONFLICT (name) DO NOTHING;

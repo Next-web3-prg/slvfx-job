@@ -1,13 +1,15 @@
 const cron = require('node-cron');
 const RemoteOKScraper = require('./api/scrapers/remoteok-scraper');
 const WeWorkRemotelyScraper = require('./api/scrapers/weworkremotely-scraper');
+const RemoteYeahScraper = require('./api/scrapers/remoteyeah-scraper');
 const { connectDB } = require('./db/connection');
 
 class JobScheduler {
   constructor() {
     this.scrapers = [
       new RemoteOKScraper(),
-      new WeWorkRemotelyScraper()
+      new WeWorkRemotelyScraper(),
+      new RemoteYeahScraper()
     ];
   }
 

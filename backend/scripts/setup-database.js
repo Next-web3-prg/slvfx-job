@@ -38,6 +38,7 @@ async function setupDatabase() {
         INSERT INTO job_sources (name, base_url, api_endpoint) VALUES
           ('RemoteOK', 'https://remoteok.io', 'https://remoteok.io/api'),
           ('WeWorkRemotely', 'https://weworkremotely.com', NULL),
+          ('RemoteYeah', 'https://remoteyeah.com', NULL),
           ('Wellfound', 'https://wellfound.com', NULL),
           ('Indeed', 'https://indeed.com', NULL)
       `);

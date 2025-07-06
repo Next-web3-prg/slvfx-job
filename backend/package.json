@@ -7,7 +7,9 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "setup:db": "node scripts/setup-database.js",
+    "add:remoteyeah": "node scripts/add-remoteyeah-source.js",
     "scrape": "node scripts/scrape-jobs.js",
+    "test:remoteyeah": "node scripts/test-remoteyeah-scraper.js",
     "scheduler": "node scheduler.js",
     "test": "jest"
   },
